@@ -11,8 +11,14 @@ public class ConversordeTemperaturas {
     	Scanner scanner = new Scanner(System.in);
     	
         System.out.println("Qual a quantidade de temperaturas a serem transformadas ? ");
-
+        
         int quantidadeDeTemperaturas = scanner.nextInt();
+        boolean quantidadeValida = quantidadeDeTemperaturas > 0;
+        while(!quantidadeValida) {
+        	System.out.println("Quantidade de temperaturas inválida, por favor tente novamente");
+        	quantidadeDeTemperaturas = scanner.nextInt();
+        	quantidadeValida = quantidadeDeTemperaturas > 0;
+        }
         
         double somaTemperaturasIniciais = 0.0;
         double somaTemperaturasTransformadas = 0.0;
@@ -23,10 +29,25 @@ public class ConversordeTemperaturas {
         	System.out.println("Use C para Celsius, F para Fahrenheit e K para Kelvin ");
         	
         	System.out.println("Qual unidade de origem da temperatura ? ");
+        	
         	String origemTemperatura = scanner.next();
+        	boolean unidadeValida = ehUnidadeValida(origemTemperatura);
+        	
+        	while(!unidadeValida) {
+        		System.out.println("Não é uma unidade válida, por favor insira novamente.");
+        		origemTemperatura = scanner.next();
+        		unidadeValida = ehUnidadeValida(origemTemperatura);
+        	}
         	
         	System.out.println("Qual unidade de temperatura a ser transformada ? ");
         	String transformadaEmTemperatura = scanner.next();
+        	unidadeValida = ehUnidadeValida(transformadaEmTemperatura);
+        	
+        	while(!unidadeValida) {
+        		System.out.println("Não é uma unidade válida, por favor insira novamente.");
+        		transformadaEmTemperatura = scanner.next();
+        		unidadeValida = ehUnidadeValida(transformadaEmTemperatura);
+        	}
         	
         	System.out.println("Digite a temperatura que será utilizada ? ");
         	double temperatura = scanner.nextDouble();
@@ -50,6 +71,8 @@ public class ConversordeTemperaturas {
         		
         	} else if (origemTemperatura.equals(KELVIN) && transformadaEmTemperatura.equals(FAHRENHEIT)) {
         		resultado = calcularKelvinEmFahrenheit(temperatura);
+        	} else {
+        		resultado = temperatura;
         	}
         	
         	System.out.println("Temperatura passada na unidade " + origemTemperatura + ": " + temperatura +
@@ -66,6 +89,13 @@ public class ConversordeTemperaturas {
         System.out.println("A media de temperaturas transformadas é: " + mediaTemperaturasTransformadas);
 
     }
+
+	private static boolean ehUnidadeValida(String origemTemperatura) {
+		
+		boolean unidadeValida = origemTemperatura.equals(CELSIUS) || origemTemperatura.equals(FAHRENHEIT) || origemTemperatura.equals(KELVIN);
+		
+		return unidadeValida;
+	}
 
     private static double calcularCelsiusEmFahrenheit(double celsius){
             double fator1 = 9.0/5.0;
